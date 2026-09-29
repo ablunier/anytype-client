@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      # npm provenance signs the package with this workflow's identity.
+      # npm trusts this workflow as the package's publisher (no token), and signs its
+      # provenance with the same identity.
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -25,5 +26,3 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
