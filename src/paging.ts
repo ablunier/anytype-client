@@ -1,5 +1,5 @@
-import { AnytypeTransportError, type AnytypeResult } from './client'
-import type { AnytypePage, AnytypePaging } from './types'
+import { AnytypeTransportError, type AnytypeResult } from './client.js'
+import type { AnytypePage, AnytypePaging } from './types.js'
 
 /** The largest page the local API serves. */
 export const ANYTYPE_PAGE_LIMIT = 1_000

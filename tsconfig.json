@@ -1,14 +1,20 @@
 {
-  "extends": "../../tsconfig.package.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    // No ambient type packages and no DOM: `fetch` is typed structurally, so the client runs
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    // No DOM and no ambient type packages: `fetch` is typed structurally, so the client runs
     // on any platform that has one, and takes one injected where it has none.
-    "types": []
+    "lib": ["ES2023"],
+    "types": [],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  // Tests import vitest, which would otherwise be emitted into dist/. Vitest transpiles
-  // them directly from source.
-  "exclude": ["**/*.test.ts", "dist"]
+  "include": ["src/**/*"]
 }

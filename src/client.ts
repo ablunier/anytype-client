@@ -17,7 +17,7 @@ import type {
   AnytypeTypeRow,
   AnytypeView,
   AnytypeWhoami
-} from './types'
+} from './types.js'
 
 /** The Anytype desktop app's local API. */
 export const ANYTYPE_LOCAL_API_URL = 'http://127.0.0.1:31009'

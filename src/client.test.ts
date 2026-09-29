@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { AnytypeClient, AnytypeTransportError, isUnmatchedRoute, type AnytypeFetch } from './client'
+import { AnytypeClient, AnytypeTransportError, isUnmatchedRoute, type AnytypeFetch } from './client.js'
 
 type FetchCall = { url: string; init: Parameters<AnytypeFetch>[1] }
 type Reply =

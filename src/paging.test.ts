@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { AnytypeTransportError, type AnytypeResult } from './client'
-import { ANYTYPE_PAGE_LIMIT, listAll } from './paging'
-import type { AnytypePage, AnytypePaging } from './types'
+import { AnytypeTransportError, type AnytypeResult } from './client.js'
+import { ANYTYPE_PAGE_LIMIT, listAll } from './paging.js'
+import type { AnytypePage, AnytypePaging } from './types.js'
 
 type Page = AnytypePage<number>
 

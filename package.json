@@ -7,6 +7,12 @@
     "name": "Adrian P. Blunier",
     "email": "adrianp@blunier.me"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ablunier/anytype-client.git"
+  },
+  "homepage": "https://github.com/ablunier/anytype-client#readme",
+  "bugs": "https://github.com/ablunier/anytype-client/issues",
   "keywords": [
     "anytype",
     "api",
@@ -23,10 +29,26 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "!src/**/*.test.ts"
   ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
-    "build": "tsc -b",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist",
+    "prepack": "npm run clean && npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   }
 }
