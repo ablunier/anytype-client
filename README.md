@@ -120,13 +120,14 @@ on request.
 | Key | `auth.whoami` |
 | Spaces | `spaces.list` |
 | Types | `types.list`, `types.get` |
-| Properties | `properties.listOptions` |
+| Templates | `templates.list` |
+| Properties | `properties.list`, `properties.listOptions` |
 | Search | `search.inSpace` |
 | Queries | `queries.listViews`, `queries.listObjects` |
 | Objects | `objects.get`, `objects.create`, `objects.update` |
 | Files | `files.content` |
 
-Not yet covered: global search, space members, collections, templates, chats, widgets,
+Not yet covered: global search, space members, collections, chats, widgets,
 schemas, validation, and creating or editing spaces, types and properties.
 
 ## What Anytype actually serves
@@ -155,8 +156,16 @@ against a real Anytype in September 2026:
     date.
   - The compact `filter` string cannot spell a key that starts with a digit, as user property
     keys may.
-- **Field and filter errors.** A `fields` or filter key the type lacks answers 400, and so
+- **Field and filter errors.** A `fields` or filter key the space lacks answers 400, and so
   does an unknown type key. A space outside the key's grant answers 403 `space_not_granted`.
+- **Properties outside the type.** An object can carry a property its type does not list,
+  e.g. one placed in its content, or in its template's, as a block
+  (`{ type: 'property', property: 'due_date' }`). A search with `type` refuses such a key in
+  `fields` and filters with a 400. A search without `type`, narrowed by a filter on `type`
+  instead (`{ property: 'type', condition: 'equal', value: 'page' }`), accepts every property
+  of the space and returns the same objects.
+- **Templates.** A template row names the type it starts in `template_for`. Its content is an
+  object document: `objects.get(spaceId, templateId, { include: 'blocks' })`.
 - **Queries.** A query (a "set") is found by searching `{ type: 'query' }`. Its document names
   what it runs over in `query_source.types`. Its objects come through one view's own filters
   and no others. Without `view` the first view applies, with a warning at `path: 'view'`.

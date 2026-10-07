@@ -290,6 +290,9 @@ describe('routes', () => {
     ['spaces', (api) => api.spaces.list({ offset: 0, limit: 10 }), 'GET', '/v2/spaces?ids=full&offset=0&limit=10'],
     ['types', (api) => api.types.list('sp'), 'GET', '/v2/spaces/sp/types'],
     ['a type', (api) => api.types.get('sp', 'my type'), 'GET', '/v2/spaces/sp/types/my%20type'],
+    ['templates', (api) => api.templates.list('sp'), 'GET', '/v2/spaces/sp/templates'],
+    ["a type's templates", (api) => api.templates.list('sp', { type: 'page' }, { limit: 10 }), 'GET', '/v2/spaces/sp/templates?type=page&limit=10'],
+    ['properties', (api) => api.properties.list('sp', { offset: 5 }), 'GET', '/v2/spaces/sp/properties?offset=5'],
     ['options', (api) => api.properties.listOptions('sp', 'status', { offset: 5 }), 'GET', '/v2/spaces/sp/properties/status/options?offset=5'],
     ['views', (api) => api.queries.listViews('sp', 'q1'), 'GET', '/v2/spaces/sp/queries/q1/views'],
     [

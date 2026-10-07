@@ -11,8 +11,10 @@ import type {
   AnytypeOptionRow,
   AnytypePage,
   AnytypePaging,
+  AnytypePropertyRow,
   AnytypeSearchRequest,
   AnytypeSpacePage,
+  AnytypeTemplateRow,
   AnytypeTypeDocument,
   AnytypeTypeRow,
   AnytypeView,
@@ -239,7 +241,21 @@ export class AnytypeApi {
       this.#get(`${space(spaceId)}/types/${encodeURIComponent(typeKey)}`)
   }
 
+  readonly templates = {
+    /** Every template of the space, or with `type` only the ones that start an object of it. */
+    list: (
+      spaceId: string,
+      { type }: { type?: string } = {},
+      paging?: AnytypePaging
+    ): Promise<AnytypeResult<AnytypePage<AnytypeTemplateRow>>> =>
+      this.#get(`${space(spaceId)}/templates`, { type, ...paging })
+  }
+
   readonly properties = {
+    /** Every property of the space, whichever types list it. */
+    list: (spaceId: string, paging?: AnytypePaging): Promise<AnytypeResult<AnytypePage<AnytypePropertyRow>>> =>
+      this.#get(`${space(spaceId)}/properties`, { ...paging }),
+
     /** A select's or multi-select's options. A property that is not one answers 400. */
     listOptions: (
       spaceId: string,
@@ -250,7 +266,10 @@ export class AnytypeApi {
   }
 
   readonly search = {
-    /** An unknown type key, or a field or filter over a key the type lacks, answers 400. */
+    /**
+     * An unknown type key answers 400, and so does a field or filter over a key the space
+     * lacks, or, when `type` is given, one the type lacks.
+     */
     inSpace: (
       spaceId: string,
       search: AnytypeSearchRequest,
@@ -282,7 +301,7 @@ export class AnytypeApi {
     get: (
       spaceId: string,
       objectId: string,
-      { include }: { include?: 'properties' | (string & {}) } = {}
+      { include }: { include?: 'properties' | 'blocks' | (string & {}) } = {}
     ): Promise<AnytypeResult<AnytypeObjectDocument>> =>
       this.#get(`${space(spaceId)}/objects/${encodeURIComponent(objectId)}`, { include }),
 

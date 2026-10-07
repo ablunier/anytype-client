@@ -150,6 +150,21 @@ export interface AnytypeTypeDocument {
   }
 }
 
+/** A property of the space. A type lists the ones its objects are meant to carry. */
+export interface AnytypePropertyRow {
+  key?: string
+  name?: string
+  format?: AnytypePropertyFormat | (string & {})
+}
+
+/** A template's document is an object's: read it with `objects.get`. */
+export interface AnytypeTemplateRow {
+  id?: string
+  name?: string
+  /** The key of the type whose objects it starts. */
+  template_for?: string
+}
+
 /** Options are space-wide and have no id: a row names the option it holds by name. */
 export interface AnytypeOptionRow {
   name?: string
@@ -201,12 +216,17 @@ export type AnytypeFilter = AnytypeFilterLeaf | AnytypeFilterGroup
  * objects out.
  */
 export interface AnytypeSearchRequest {
+  /**
+   * Also narrows `fields` and filters to the type's own properties. To read a property an
+   * object carries without its type listing it, leave this out and filter on `type` instead:
+   * `{ property: 'type', condition: 'equal', value: 'page' }`, which takes the type's key.
+   */
   type?: string
   query?: string
   filters?: AnytypeFilter[]
   filter?: string
   sorts?: Record<string, unknown>[]
-  /** Only these properties come back per row. A key the type lacks answers 400. */
+  /** Only these properties come back per row. */
   fields?: string[]
 }
 
@@ -233,13 +253,28 @@ export interface AnytypeView {
 }
 
 /**
+ * One block of a document's content. A property shown in the content is
+ * `{ type: 'property', property: 'due_date' }`; its value is in the document's `properties`.
+ */
+export interface AnytypeBlock {
+  id?: string
+  type?: string
+  property?: string
+  /** Nesting depth: the blocks themselves are a flat list in document order. */
+  indent?: number
+  [member: string]: unknown
+}
+
+/**
  * `GET …/objects/{id}`, an AnyBlock document. A query's names what it runs over in
- * `query_source`, e.g. `{ types: ['task'] }`.
+ * `query_source`, e.g. `{ types: ['task'] }`; a template's, the type it starts in `template_for`.
  */
 export interface AnytypeObjectDocument {
   id?: string
   kind?: string
   properties?: Record<string, unknown>
+  blocks?: AnytypeBlock[]
+  template_for?: string
   query_source?: { types?: string[]; [member: string]: unknown }
   [member: string]: unknown
 }

@@ -1,6 +1,6 @@
 {
   "name": "@ablunier/anytype-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A typed TypeScript client for the Anytype desktop app's local API (v2)",
   "license": "MIT",
   "author": {
