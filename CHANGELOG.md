@@ -3,6 +3,7 @@
 ## 0.3.0
 
 - `members.list`.
+- `AnytypePropertyDefinition` types `section`.
 - Documents that a property with no value may also come as `null`, `""` or `[]`, how a deleted
   select option and linked objects are served, and how to read linked objects' names.
 

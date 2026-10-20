@@ -131,6 +131,8 @@ export interface AnytypePropertyDefinition {
   internal_key?: string
   name?: string
   format?: AnytypePropertyFormat | (string & {})
+  /** Left off for a property in neither. Anytype's app does not show a `hidden` one. */
+  section?: 'featured' | 'hidden' | (string & {})
 }
 
 /** `GET …/types/{type}`, an AnyBlock document of kind `object_type`. */

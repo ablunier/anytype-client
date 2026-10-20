@@ -146,7 +146,8 @@ against a real Anytype in September 2026:
   `ambiguous_input`. A type document keeps v1's key as `type_settings.api_key`.
 - **Type documents.** A type list row is only `{ key, name }`: the icon and properties are in
   the type document. That document spells a few of Anytype's own keys in camelCase
-  (`lastOpenedDate`), where every other route says `last_opened_date`.
+  (`lastOpenedDate`), where every other route says `last_opened_date`. Each property's
+  `section` is `featured`, `hidden` (which Anytype's app does not show) or left off.
 - **Rows.** Object rows carry only the `fields` asked for. A date is a bare RFC 3339 string in
   UTC. A select or multi-select is the list of its picked options' names; a deleted option
   is named by its object id instead. Linked objects are a list of ids, with no names. A
