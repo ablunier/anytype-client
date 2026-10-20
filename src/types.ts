@@ -171,6 +171,14 @@ export interface AnytypeOptionRow {
   color?: AnytypeColor | (string & {})
 }
 
+export interface AnytypeMemberRow {
+  /** `participant-<identity>`: how an object row links the member. */
+  id?: string
+  name?: string
+  role?: string
+  identity?: string
+}
+
 export type AnytypeFilterCondition =
   | 'equal'
   | 'not_equal'

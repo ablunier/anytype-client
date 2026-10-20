@@ -4,6 +4,7 @@ import type {
   AnytypeCreated,
   AnytypeEdited,
   AnytypeFile,
+  AnytypeMemberRow,
   AnytypeObjectCreate,
   AnytypeObjectDocument,
   AnytypeObjectOp,
@@ -263,6 +264,15 @@ export class AnytypeApi {
       paging?: AnytypePaging
     ): Promise<AnytypeResult<AnytypePage<AnytypeOptionRow>>> =>
       this.#get(`${space(spaceId)}/properties/${encodeURIComponent(propertyKey)}/options`, { ...paging })
+  }
+
+  readonly members = {
+    /**
+     * The space's members. A search does not find them, nor does `objects.get`: an object row
+     * links one as `participant-<identity>`, matched here on `identity`.
+     */
+    list: (spaceId: string, paging?: AnytypePaging): Promise<AnytypeResult<AnytypePage<AnytypeMemberRow>>> =>
+      this.#get(`${space(spaceId)}/members`, { ...paging })
   }
 
   readonly search = {
