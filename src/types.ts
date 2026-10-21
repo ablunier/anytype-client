@@ -131,6 +131,8 @@ export interface AnytypePropertyDefinition {
   internal_key?: string
   name?: string
   format?: AnytypePropertyFormat | (string & {})
+  /** Left off for a property in neither. Anytype's app does not show a `hidden` one. */
+  section?: 'featured' | 'hidden' | (string & {})
 }
 
 /** `GET …/types/{type}`, an AnyBlock document of kind `object_type`. */
@@ -169,6 +171,14 @@ export interface AnytypeTemplateRow {
 export interface AnytypeOptionRow {
   name?: string
   color?: AnytypeColor | (string & {})
+}
+
+export interface AnytypeMemberRow {
+  /** `participant-<identity>`: how an object row links the member. */
+  id?: string
+  name?: string
+  role?: string
+  identity?: string
 }
 
 export type AnytypeFilterCondition =
@@ -231,9 +241,10 @@ export interface AnytypeSearchRequest {
 }
 
 /**
- * Only the fields asked for. A date is a bare RFC 3339 string in UTC; a select, the list of its
- * picked options' names; a property the object has no value for is left out, an unticked
- * checkbox among them.
+ * Only the fields asked for. A date is a bare RFC 3339 string in UTC; a select or multi-select,
+ * the list of its picked options' names, a deleted option's by its object id; linked objects, a
+ * list of ids. A property the object has no value for is left out, or comes as `null`, `""` or
+ * `[]`; an unticked checkbox is left out.
  */
 export interface AnytypeObjectRow {
   id?: string

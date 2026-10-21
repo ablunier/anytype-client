@@ -122,12 +122,13 @@ on request.
 | Types | `types.list`, `types.get` |
 | Templates | `templates.list` |
 | Properties | `properties.list`, `properties.listOptions` |
+| Members | `members.list` |
 | Search | `search.inSpace` |
 | Queries | `queries.listViews`, `queries.listObjects` |
 | Objects | `objects.get`, `objects.create`, `objects.update` |
 | Files | `files.content` |
 
-Not yet covered: global search, space members, collections, chats, widgets,
+Not yet covered: global search, collections, chats, widgets,
 schemas, validation, and creating or editing spaces, types and properties.
 
 ## What Anytype actually serves
@@ -145,10 +146,13 @@ against a real Anytype in September 2026:
   `ambiguous_input`. A type document keeps v1's key as `type_settings.api_key`.
 - **Type documents.** A type list row is only `{ key, name }`: the icon and properties are in
   the type document. That document spells a few of Anytype's own keys in camelCase
-  (`lastOpenedDate`), where every other route says `last_opened_date`.
+  (`lastOpenedDate`), where every other route says `last_opened_date`. Each property's
+  `section` is `featured`, `hidden` (which Anytype's app does not show) or left off.
 - **Rows.** Object rows carry only the `fields` asked for. A date is a bare RFC 3339 string in
-  UTC. A select is the list of its picked options' names. A property with no value is left
-  out, and so is an unticked checkbox.
+  UTC. A select or multi-select is the list of its picked options' names; a deleted option
+  is named by its object id instead. Linked objects are a list of ids, with no names. A
+  property with no value is left out, or comes as `null`, `""` or `[]`; an unticked checkbox
+  is left out.
 - **Filters.**
   - Use the long condition names (`greater_or_equal`, `not_empty` …), with dates as unix
     seconds.
@@ -169,6 +173,10 @@ against a real Anytype in September 2026:
 - **Queries.** A query (a "set") is found by searching `{ type: 'query' }`. Its document names
   what it runs over in `query_source.types`. Its objects come through one view's own filters
   and no others. Without `view` the first view applies, with a warning at `path: 'view'`.
+- **Linked objects.** A search with `{ property: 'id', condition: 'in', value: [...] }`
+  reads many objects' names at once; it took 1000 ids, and ignores ids it does not know.
+  Neither it nor `objects.get` finds a space member (`participant-<identity>`): `members.list`
+  does, matched on `identity`.
 - **Writes.**
   - A date is written as RFC 3339.
   - A read-only key answers 403 `write_not_granted`, and a busy one 429.
